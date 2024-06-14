@@ -26,4 +26,4 @@ A Learning Management System (LMS) dashboard using the MERN stack (MongoDB, Expr
 
 ## Live Link
 
-[KNOWLEDGE](https://choosealicense.com/licenses/mit/)
+[KNOWLEDGE](https://online-learning-eaa5b.web.app)
