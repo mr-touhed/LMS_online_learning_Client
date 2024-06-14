@@ -17,7 +17,7 @@ const LatestCourse = ({courses}) => {
                 }}
                 >
                     {
-                        courses && courses?.map(course => <LatestCard key={course._id} course={course}/>)
+                        courses && [...courses]?.reverse()?.slice(0,4)?.map(course => <LatestCard key={course._id} course={course}/>)
                     }
                 
                 

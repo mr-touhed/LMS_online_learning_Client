@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import CheckoutForm from "../components/Payment/CheckoutForm";
 import { pathName } from "../utils/URL";
 import { useParams } from "react-router-dom";
-const stripePromise = loadStripe("pk_test_51NEhV0JdurVlYNgyUsZvXP2Fn7e9mhSMFLtz8iUJpCWKfRyd530LNqFjTN4XjAOhLdFQ9WQZ2aYP4iEwF2EoZhDz003lGw2wVt");
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 const Payment = () => {
   const {id} = useParams()
   console.log(id);

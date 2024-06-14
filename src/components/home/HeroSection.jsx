@@ -1,5 +1,6 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import bg from "/images/bg.png"
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
     return (
@@ -8,7 +9,7 @@ const HeroSection = () => {
                     <Stack alignItems="baseline" gap={1} >
                     <Typography variant="h3">Learn Online. Anywhere . Anytime</Typography>
                     <Typography variant="caption">3000 specialists Industry experts. 2m+ Students.</Typography>
-                        <Button variant="contained" sx={{display:"block"}}>Start learning online</Button>
+                        <Link to="/courses"><Button variant="contained" sx={{display:"block"}}>Start learning online</Button></Link>
                     </Stack>
             </Container>
         </Box>

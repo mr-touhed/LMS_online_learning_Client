@@ -14,10 +14,7 @@ const CourseDetails = () => {
                     <Stack gap={4}>
                     <Typography variant="h5">{catagory}</Typography>
                     <Typography variant="h4"> {title}</Typography>
-                    
-                    
-                    
-                    <Typography variant="body2">{details}</Typography>
+                     <Typography variant="body2">{details}</Typography>
 
                     <Box sx={{
                         display:"flex",
@@ -56,7 +53,7 @@ const CourseDetails = () => {
                                 }}>
                                     <Box>
                                     <Box 
-                                    sx={{width:200}}
+                                    sx={{width:100}}
                                     component="img" src={author.img} alt="" />
                                     </Box>
                                     <Stack gap={2}>

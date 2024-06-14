@@ -8,22 +8,23 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
+import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 import useAuthentication from '../hooks/useAuthentication';
 
 
-const pages = [{name:'home', link:"/"}, {name:'courses', link:"/courses"}, {name:'dashboard', link:"/dashboard"}];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages1 = [{name:'home', link:"/"}, {name:'courses', link:"/courses"}, {name:'dashboard', link:"/dashboard"}];
+const pages2 = [{name:'home', link:"/"}, {name:'courses', link:"/courses"}];
+
 
 function NavBar() {
   const {user,sign_out} = useAuthentication()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const showPage = user?.email ? pages1 : pages2;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -43,7 +44,7 @@ function NavBar() {
     <AppBar position="static">
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <BubbleChartIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Link to="/">
           <Typography
             variant="h6"
@@ -60,7 +61,7 @@ function NavBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            KnowLedGe
           </Typography>
           </Link>
 
@@ -93,8 +94,8 @@ function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <Link key={page.name} to={page.link} onClick={handleCloseNavMenu}>
+              {showPage.map((page) => (
+                <Link key={page.name} to={page.link}  onClick={handleCloseNavMenu}>
                 <MenuItem  >
                   <Typography color="black" textAlign="center">{page.name}</Typography>
                 </MenuItem>
@@ -124,7 +125,7 @@ function NavBar() {
           </Typography>
           </Link>
           <Box sx={{ flexGrow: 1,  display: { xs: 'none', md: 'flex' }, justifyContent:"center" }}>
-          {pages.map((page) => (
+          {showPage.map((page) => (
                 <Link key={page.name} to={page.link} onClick={handleCloseNavMenu}>
                 <MenuItem  >
                   <Typography textAlign="center">{page.name}</Typography>
@@ -161,7 +162,7 @@ function NavBar() {
                  
                 </MenuItem>
             </Menu>
-          </Box> : <Link to="/login">Login</Link>}
+          </Box> : <Link to="/login">LOGIN</Link>}
         </Toolbar>
       </Container>
     </AppBar>

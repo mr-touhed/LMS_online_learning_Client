@@ -14,6 +14,7 @@ import { pathName } from "../utils/URL";
 import Payment from "../pages/Payment";
 import { send_token } from "../utils/tools";
 import { ErrorBoundary } from "../components/ErrorBoundary";
+import AllCourses from "../pages/AllCourses";
 
 
 export const routes = createBrowserRouter([
@@ -48,7 +49,13 @@ export const routes = createBrowserRouter([
                     <Payment/>
                 </VerifyRoute>
             },
+            {
+                path:"courses",
+                element:<AllCourses/>,
+                loader:() => fetch(`${pathName}/courses`),
 
+            },
+            
             {
                 path:"dashboard",
                 element:

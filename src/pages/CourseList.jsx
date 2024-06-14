@@ -12,6 +12,7 @@ import { pathName } from '../utils/URL';
 import { send_token } from '../utils/tools';
 import { Avatar, Button, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 
@@ -37,6 +38,25 @@ export default function CourseList() {
     },[])
 
     
+    const handel_delete =async (id) =>{
+        try {
+            const response = await fetch(`${pathName}/course/${id}`,{
+              method:"DELETE",
+              headers:send_token(),
+            })
+            const result = await response.json();
+            if(result.status){
+              toast(result.message)
+              const update = courseList.filter(course => course._id !== id);
+              return  setCourseList(update)
+            }else{
+              return toast(result.message)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     if(loading) return
 
@@ -70,7 +90,7 @@ export default function CourseList() {
                 <Link to={`/dashboard/course/edit/${row._id}`}>
                 <Button><EditNoteIcon/></Button>
                 </Link>
-                <Button onClick ={ ''}><DeleteForeverIcon/></Button>
+                <Button onClick ={()=> handel_delete(row._id)}><DeleteForeverIcon/></Button>
               </TableCell>
             </TableRow>
           ))}
