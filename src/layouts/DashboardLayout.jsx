@@ -9,7 +9,7 @@ const DashboardLayout = () => {
             
             
             <Grid container spacing={2}>
-                 <Grid item xs={12} md={2}  sx={{borderInlineEnd:"1px solid gray"}} minHeight="100vh">
+                 <Grid item xs={12}  md={2}  sx={{borderInlineEnd:"1px solid gray",}} >
                  <DashMenu/>
   </Grid>
   <Grid item xs={12} md={10}>

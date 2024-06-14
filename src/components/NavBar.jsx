@@ -16,11 +16,11 @@ import { Link } from 'react-router-dom';
 import useAuthentication from '../hooks/useAuthentication';
 
 
-const pages = ['home', 'courses', 'Blog'];
+const pages = [{name:'home', link:"/"}, {name:'courses', link:"/courses"}, {name:'dashboard', link:"/dashboard"}];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
-  const {user,signOut} = useAuthentication()
+  const {user,sign_out} = useAuthentication()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -94,9 +94,11 @@ function NavBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <Link key={page.name} to={page.link} onClick={handleCloseNavMenu}>
+                <MenuItem  >
+                  <Typography color="black" textAlign="center">{page.name}</Typography>
                 </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -122,15 +124,13 @@ function NavBar() {
           </Typography>
           </Link>
           <Box sx={{ flexGrow: 1,  display: { xs: 'none', md: 'flex' }, justifyContent:"center" }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+          {pages.map((page) => (
+                <Link key={page.name} to={page.link} onClick={handleCloseNavMenu}>
+                <MenuItem  >
+                  <Typography textAlign="center">{page.name}</Typography>
+                </MenuItem>
+                </Link>
+              ))}
           </Box>
 
           {user ? <Box sx={{ flexGrow: 0 }}>
@@ -155,7 +155,7 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem  onClick={() => {signOut() , handleCloseUserMenu}}>
+              <MenuItem  onClick={() => {sign_out() , handleCloseUserMenu}}>
                   
                   logout
                  

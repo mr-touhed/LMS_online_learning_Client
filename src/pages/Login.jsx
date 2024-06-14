@@ -26,7 +26,7 @@ const Login = () => {
             [e.target.name]:e.target.value
         }))
     }
-    console.log({location});
+    
     const hahdel_submit = async (e)=>{
         e.preventDefault()
         const login_user = await signInWithEmailAndPassword(createuser.email,createuser.password);

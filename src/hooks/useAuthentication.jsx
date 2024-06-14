@@ -2,7 +2,7 @@
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithGoogle, useSignOut, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/firebase.config';
 import { useState } from 'react';
-import { set_token_fromServer } from '../utils/tools';
+import { insert_user, set_token_fromServer } from '../utils/tools';
 import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 const useAuthentication = () => {
@@ -25,15 +25,22 @@ const useAuthentication = () => {
             try {
                 const sign_user = await signInWithGoogle();
                 if(sign_user){
-                    const setToken = await set_token_fromServer({email:sign_user.user.email});
-               if(setToken){
-
-                if(location.state){
-                   return  navigate(location.state?.from, {replace:true})
-                   }else{
-                        return  navigate("/")
-                   }
-               }
+                    
+                    const register_user = {name:sign_user.user.displayName,email:sign_user.user.email,img:sign_user.user.photoURL}
+                                    const insert_user_in_Db = await insert_user(register_user);
+                        if(insert_user_in_Db.status){
+                            const setToken = await set_token_fromServer({email:sign_user.user.email});
+                            if(setToken){
+             
+                             if(location.state){
+                                return  navigate(location.state?.from, {replace:true})
+                                }else{
+                                     return  navigate("/")
+                                }
+                            }
+                        }else{
+                            toast(insert_user_in_Db.message)
+                        }
                 }
             } catch (error) {
                 console.log({error});
@@ -50,7 +57,12 @@ const useAuthentication = () => {
                                
                                const success  =  await updateProfile({ displayName:name, photoURL:imgUrl })
                                if(success){
-                                const setToken = await set_token_fromServer({email:create_user.user?.email});
+                                    const register_user = {name:create_user.user.displayName,email:create_user.user.email,img:create_user.user.photoURL}
+                                    const insert_user_in_Db = await insert_user(register_user);
+                                    if(insert_user_in_Db.status){
+
+
+                                        const setToken = await set_token_fromServer({email:create_user.user?.email});
                                         if(setToken){
 
                                             if(location.state){
@@ -59,6 +71,12 @@ const useAuthentication = () => {
                                                     return  navigate("/")
                                             }
                                         }
+                                    }else{
+                                        toast(insert_user_in_Db.message)
+                                    }
+
+
+                                
                                 
                                }
                                
@@ -72,9 +90,12 @@ const useAuthentication = () => {
                         console.log("error create user", error);
                     }
       }
-
+      const sign_out = async()=>{
+                 signOut();
+                localStorage.clear()
+      }
     return (
-        {create_new_user,gooleSign,signOut, loading,user}
+        {create_new_user,gooleSign,sign_out, loading,user}
     );
 };
 

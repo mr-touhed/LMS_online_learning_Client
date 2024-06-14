@@ -19,7 +19,7 @@ const Register = () => {
         }))
     }
   
-    const hahdel_submit = (e)=>{
+    const hahdel_submit = async (e)=>{
         e.preventDefault()
        create_new_user(createuser);
      

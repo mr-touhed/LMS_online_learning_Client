@@ -1,12 +1,22 @@
+
+
+
 import { Button, FormControl,  InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import useAuthentication from "../hooks/useAuthentication";
-import { insert_course } from "../utils/tools";
+import {  useState } from "react";
+
+
+import { useLoaderData } from "react-router-dom";
+import { update_course } from "../utils/tools";
 import toast from "react-hot-toast";
 
-const AddCourse = () => {
-    const [course,setCourse] = useState({title:"",price:"",thumb:"",details:"", catagory:""});
-   const {user,sign_out} = useAuthentication()
+const EditCourse = () => {
+    const {course:loaderData} = useLoaderData()
+   
+    const [course,setCourse] = useState(loaderData);
+  
+
+   
+ 
     const handelChange = (e) =>{
         setCourse(prev => ({
             ...prev,
@@ -16,24 +26,28 @@ const AddCourse = () => {
 
     const handel_submit = async (e) =>{
         e.preventDefault()
-        const new_course = {...course, author_email:user.email}
-        try {
-            const result = await insert_course(new_course);
-            if(result.status){
-                toast(result.message);
-                return setCourse({title:"",price:"",thumb:"",details:"", catagory:""})
-            }else{
-                toast(result.message)
-                sign_out()
-            }
-        } catch (error) {
-            console.log(error)
+       const update_data = {
+                title:course.title,
+                price:course.price,
+                thumb:course.thumb,
+                details:course.details,
+                catagory:course.catagory
+       }
+       try {
+        const result = await update_course(course._id,update_data);
+        if(result.status){
+            toast(result.message)
+        }else{
+            toast(result.message)
         }
+       } catch (error) {
+            console.log(error);
+       }
     }
 
     return (
         <form onSubmit={handel_submit}>
-            <Typography variant="h4" textAlign="center">Add course</Typography>
+            <Typography variant="h4" textAlign="center">Edit course</Typography>
             <Stack gap={4}>
             <TextField id="outlined-basic" label="course title" variant="outlined"  name="title" value={course.title} onChange={(e)=>handelChange(e)}/>
             <TextField id="outlined-basic" label="price" variant="outlined"  name="price" value={course.price} onChange={(e)=>handelChange(e)}/>
@@ -64,10 +78,11 @@ const AddCourse = () => {
                         </FormControl>
 
 
-                        <Button type="submit" variant="contained">add course</Button>
+                        <Button type="submit" variant="contained">update course</Button>
             </Stack>
         </form>
     );
 };
 
-export default AddCourse;
+export default EditCourse;
+

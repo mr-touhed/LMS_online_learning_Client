@@ -28,7 +28,7 @@ const catagories = [
 const CatagoryCard = () => {
     return (
         <Container >
-                <Stack flexDirection="row" gap={3} sx={{overflowX:{sm:"scroll", md:"hidden"}}}> 
+                <Stack flexDirection="row" gap={3} sx={{overflowX:{xs:"scroll", md:"hidden"}}}> 
                     {
                         catagories.map((catagory,index) => <Card key={index} catagory={catagory} />)
                     }

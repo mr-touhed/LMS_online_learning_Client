@@ -9,21 +9,30 @@ import EnrollCourse from "../pages/EnrollCourse";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import VerifyRoute from "../verifyRoute/VerifyRoute";
-import Enroll from "../pages/Enroll";
+import EditCourse from "../pages/EditCourse";
+import { pathName } from "../utils/URL";
+import Payment from "../pages/Payment";
+import { send_token } from "../utils/tools";
+import { ErrorBoundary } from "../components/ErrorBoundary";
 
 
 export const routes = createBrowserRouter([
     {
         path:"/",
         element:<RootLayout/>,
+        errorElement:<ErrorBoundary />,
         children:[
             {
                 path:"/",
                 index:true,
                 element: <Home/>,
+                loader:() => fetch(`${pathName}/courses`),
+               
+                
             },{
                 path:"course/details/:id",
-                element:<CourseDetails/>
+                element:<CourseDetails/>,
+                loader:({params}) => fetch(`${pathName}/course/${params.id}`)
             },
             {
                 path:"register",
@@ -36,18 +45,20 @@ export const routes = createBrowserRouter([
             {
                 path:"/course/enroll/:id",
                 element: <VerifyRoute>
-                    <Enroll/>
+                    <Payment/>
                 </VerifyRoute>
             },
 
             {
                 path:"dashboard",
-                element:<DashboardLayout/>,
+                element:
+                <VerifyRoute>
+
+                        <DashboardLayout/>
+                </VerifyRoute>
+                ,
                 children:[
-                    {
-                        path:"my-course-list",
-                        element:"couser list"
-                    },
+                    
                     {
                         path:"add-course",
                         element:<AddCourse/>
@@ -58,8 +69,14 @@ export const routes = createBrowserRouter([
                     },
                     {
                         path:"enroll-courses",
-                        element:<EnrollCourse/>
+                        element:<EnrollCourse/>,
+                        loader:() => fetch(`${pathName}/enroll`,{headers:send_token()})
                     },
+                    {
+                        path:"course/edit/:id",
+                        element:<EditCourse/>,
+                        loader:({params}) => fetch(`${pathName}/course/${params.id}`)
+                    }
 
                 ]
             }

@@ -1,9 +1,10 @@
 import { Box, Container,  Typography, styled } from "@mui/material";
 
-import card_bg from "/images/card_bg.jpg"
+
 import { Link } from "react-router-dom";
 
-const LatestCourse = () => {
+const LatestCourse = ({courses}) => {
+    
     return (
         <Container>
                 <Typography variant="h4"> Our Latest Courses</Typography>
@@ -15,11 +16,11 @@ const LatestCourse = () => {
                     gap:"2rem"
                 }}
                 >
-                <LatestCard/>
-                <LatestCard/>
-                <LatestCard/>
-                <LatestCard/>
-                <LatestCard/>
+                    {
+                        courses && courses?.map(course => <LatestCard key={course._id} course={course}/>)
+                    }
+                
+                
                 </Box>
                 
         </Container>
@@ -31,11 +32,12 @@ export default LatestCourse;
 
 
 
-function LatestCard(){
+function LatestCard({course}){
+    const {_id,thumb,title,catagory} = course
     return (
-        <Link to={`/details`} >
+        <Link to={`/course/details/${_id}`} >
         <Box sx={{
-            backgroundImage:`url(${card_bg})`,
+            backgroundImage:`url(${thumb})`,
             minHeight:"225px",
             maxWidth:"450px",
             width:"100%",
@@ -47,8 +49,8 @@ function LatestCard(){
             
         }}>
             <Content>
-                    <Typography variant="h2">hello</Typography>
-                    <Typography variant="h6" sx={{textTransform:"uppercase"}}>Design </Typography>
+                    <Typography variant="h5">{title}</Typography>
+                    <Typography variant="caption" sx={{textTransform:"uppercase"}}>{catagory} </Typography>
 
             </Content>
 
@@ -67,6 +69,7 @@ position: absolute;
     background: linear-gradient(0deg, #04284b 0%, rgba(165, 161, 219, 0.0985644257703081) 90%);
     display: flex;
     align-items: flex-start;
+    gap:1.5rem;
     padding: 1rem;
     color: whitesmoke;
     flex-direction: column;
